@@ -9,20 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('remember_token')->nullable(); // Adiciona a coluna
+            $table->string('remember_token')->nullable()->change();
         });
     }
-    
+
+
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('remember_token'); // Remove a coluna
+            //
         });
     }
 };
