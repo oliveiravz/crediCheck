@@ -26,10 +26,10 @@ class CreateClient extends CreateRecord
                 case 'Ensino Fundamental Completo':
                     $this->score += 400;
                     break;
-                case 'Ensino Médio Incompleto':
+                case 'Ensino Mï¿½dio Incompleto':
                     $this->score += 500;
                     break;
-                case 'Ensino Médio Completo':
+                case 'Ensino Mï¿½dio Completo':
                     $this->score += 600;
                     break;
                 case 'Ensino Superior Incompleto':
@@ -41,7 +41,7 @@ class CreateClient extends CreateRecord
             }
         }
 
-        // Calcular score com base no salário
+        // Calcular score com base no salï¿½rio
         if (!empty($data["salary"])) {
 
             $data["salary"] = (float) $data["salary"];
@@ -59,24 +59,24 @@ class CreateClient extends CreateRecord
             }
         }
 
-        // Ajustar score com base nos cartões de crédito
+        // Ajustar score com base nos cartï¿½es de crï¿½dito
         if (!empty($data["credit_cards"])) {
             $credit_cards = (int) $data["credit_cards"] * 15;
             $this->score -= $credit_cards;
         }
 
-        // Ajustar score com base nas dívidas
+        // Ajustar score com base nas dï¿½vidas
         if (!empty($data["debts"])) {
             $data["debts"] = (float) $data["debts"];
 
             if ($data["debts"] <= (1412 * 3)) {
-                $this->score -= 100;
+                $this->score -= 10;
             } elseif ($data["debts"] <= (1412 * 5)) {
-                $this->score -= 200;
+                $this->score -= 20;
             } elseif ($data["debts"] <= (1412 * 10)) {
-                $this->score -= 300;
+                $this->score -= 30;
             } else {
-                $this->score -= 400;
+                $this->score -= 40;
             }
         }
         
@@ -87,7 +87,7 @@ class CreateClient extends CreateRecord
         // Definir o valor final de score
         $data["score"] = (int) $this->score;
 
-        // Verifica se é apto
+        // Verifica se ï¿½ apto
         if ($this->score >= 600) {
             $data["apto"] = true;
         }
