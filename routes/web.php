@@ -18,4 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/pdf/download', [DownloadPdfController::class, 'generateClientPdf'])->name('client.pdf.download');
+Route::get('/pdf/download/{id}', [DownloadPdfController::class, 'generateClientPdf'])->name('client.pdf.download');
