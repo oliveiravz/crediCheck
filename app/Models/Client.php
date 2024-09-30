@@ -14,5 +14,10 @@ class Client extends Model
         'cpf',
         'education',
         'salary',
+        'credit_cards',
+        'debts',
+        'apto',
+        'score',
     ];
+
 }

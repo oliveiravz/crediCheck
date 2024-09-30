@@ -3,15 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ClientResource\Pages;
-use App\Filament\Resources\ClientResource\RelationManagers;
 use App\Models\Client;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ClientResource extends Resource
 {
@@ -25,20 +22,39 @@ class ClientResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label("Nome"),
                 Forms\Components\TextInput::make('cpf')
-                    ->numeric()
                     ->required()
-                    ->placeholder('Digite o CPF'),
+                    ->placeholder('Digite o CPF')
+                    ->label("CPF")
+                    ->mask('999.999.999-99'),
                 Forms\Components\Select::make('education')
                     ->required()
+                    ->label("Escolaridade")
                     ->options([
+                        'Ensino Fundamental Incompleto' => 'Ensino Fundamental Incompleto',
+                        'Ensino Fundamental Completo' => 'Ensino Fundamental Completo',
                         'Ensino Médio Incompleto' => 'Ensino Médio Incompleto',
                         'Ensino Médio Completo' => 'Ensino Médio Completo',
+                        'Ensino Superior Incompleto' => 'Ensino Superior Incompleto',
                         'Ensino Superior Completo' => 'Ensino Superior Completo',
                     ]),
                 Forms\Components\TextInput::make('salary')
                     ->numeric()
+                    ->label("Salário")
+                    ->prefix('R$')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('credit_cards')
+                    ->numeric()
+                    ->label("Cartões de Crédito")
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('debts')
+                    ->numeric()
+                    ->prefix("R$")
+                    ->label("Dívidas Totais")
                     ->required()
                     ->maxLength(255),
             ]);
@@ -49,26 +65,38 @@ class ClientResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->label("Nome"),
                 Tables\Columns\TextColumn::make('cpf')
-                    ->searchable(),
+                    ->searchable()
+                    ->label("CPF"),
                 Tables\Columns\TextColumn::make('education')
-                    ->searchable(),
+                    ->searchable()
+                    ->label("Escolaridade"),
                 Tables\Columns\TextColumn::make('salary')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('apto')
-                    ->searchable(),
+                    ->searchable()
+                    ->label("Salário"),
+                Tables\Columns\IconColumn::make('apto')
+                    ->searchable()
+                    ->label("Apto")
+                    ->boolean(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                ->label("Editar"),
+                Tables\Actions\Action::make('download')
+                    ->label('Download PDF')
+                    ->url(fn(Client $id) => route('client.pdf.download', $id))
+                    ->openUrlInNewTab()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                ])
+                ->label("Ações"),
             ]);
     }
 

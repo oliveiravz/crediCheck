@@ -16,7 +16,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('cpf');
             $table->string('education');
-            $table->string('salary');
+            $table->float('salary');
+            $table->integer('credit_cards')->default(0);
+            $table->float('debts')->default(0);
+            $table->boolean('apto')->default(false);
+            $table->integer('score')->default(0);
             $table->timestamps();
         });
     }
